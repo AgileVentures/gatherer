@@ -16,7 +16,7 @@ RSpec.describe CreatesProject do
   describe "task string parsing" do
     let(:tasks) { creator.parse_string_as_tasks }
     
-    describe 'with an empty' do
+    describe 'with an empty string' do
      let(:task_string) { "" }
      specify { expect(tasks).to be_empty }
     end
@@ -27,6 +27,14 @@ RSpec.describe CreatesProject do
       expect(tasks).to be_empty
     end
     
+    describe 'with a single string' do 
+      let(:task_string) { "Start Things" }
+      it { expect(tasks.size).to eq(1) }
+      it { expect(tasks.first).to have_attributes(
+        title: "Start Things", size: 1) }
+    end
+    
+    
     it "parses a single string" do 
       creator = CreatesProject.new(name: "Project Runway", task_string: "Start Things")
       tasks = creator.parse_string_as_tasks  
@@ -34,12 +42,27 @@ RSpec.describe CreatesProject do
       expect(tasks.first).to have_attributes(title:  "Start Things", size: 1)
     end
     
+    describe "with a single string with size " do
+      let(:task_string) { "Start Things:3" }
+      it { expect(tasks.size).to eq(1) }
+      it { expect(tasks.first).to have_attributes(
+        title: "Start Things", size: 3) }
+    end
+    
+    
     it "parses a single string with size" do 
       creator = CreatesProject.new(name: "Project Runway", 
                                    task_string: "Start Things:3")
       tasks = creator.parse_string_as_tasks  
       expect(tasks.size).to eq(1)
       expect(tasks.first).to have_attributes(title:  "Start Things", size: 3)
+    end
+    
+    describe "handles a single string with size zero" do
+      let(:task_string) { "Start Things:0" }
+      it { expect(tasks.size).to eq(1) }
+      it { expect(tasks.first).to have_attributes(
+        title: "Start Things", size: 1) }
     end
     
     it "parses a single string with size zero" do
