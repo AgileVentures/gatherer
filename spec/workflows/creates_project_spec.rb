@@ -42,7 +42,7 @@ RSpec.describe CreatesProject do
       expect(tasks.first).to have_attributes(title:  "Start Things", size: 1)
     end
     
-    describe "with a single string with size " do
+    describe "with a single string of some size " do
       let(:task_string) { "Start Things:3" }
       it { expect(tasks.size).to eq(1) }
       it { expect(tasks.first).to have_attributes(
@@ -73,12 +73,34 @@ RSpec.describe CreatesProject do
       expect(tasks.first).to have_attributes(title: "Start Things", size: 1)
     end
     
-    it "parses a single string with absent size" do
+    describe "handles a single string with malformed size" do
+      let(:task_string) { "Start Things:" }
+      it { expect(tasks.size).to eq(1) }
+      it { expect(tasks.first).to have_attributes(
+        title: "Start Things", size: 1) }
+    end
+    
+    it "parses a single string with malformed size" do
       creator = CreatesProject.new(name: "Project Runway", 
                                    task_string: "Start Things:")
       tasks = creator.parse_string_as_tasks
       expect(tasks.size).to eq(1)
       expect(tasks.first).to have_attributes(title: "Start Things", size: 1)
+    end
+    
+    describe 'parses a single string with negative size' do 
+      let(:task_string) { "Start something:-1" }
+      
+      describe "subject size" do
+         subject { tasks.size }
+         it { is_expected.to eq(1) }
+         # tasks.size.is_expected.to eq(1)
+       end
+      
+      describe 'fun with subjects' do
+        subject { tasks.first }
+        it { is_expected.to have_attributes(title: "Start something", size: 1) }
+      end
     end
     
     it "parses a single string with negative size" do
@@ -89,6 +111,12 @@ RSpec.describe CreatesProject do
       expect(tasks.first).to have_attributes(title: "Start Things", size: 1)
     end
     
+    describe 'parses a single string with non-numeric size' do 
+      let(:task_string) { "Start Things:aardvark" }
+      it { expect(tasks.size).to eq(1) }
+      it { expect(tasks.first).to have_attributes(title: "Start Things", size:1) }
+    end
+    
     it "parses a single string with non-numeric size" do
       creator = CreatesProject.new(name: "Project Runway", 
                                    task_string: "Start Things:aardvark")
@@ -97,6 +125,17 @@ RSpec.describe CreatesProject do
       expect(tasks.first).to have_attributes(title: "Start Things", size: 1)
     end
     
+    describe "with multiple tasks" do
+      let(:task_string) { "Start Things:1\nContinue Things:2\nFinish Things:3" }
+      it { expect(tasks.size).to eq(3) }
+      
+      it 'TRY THIS' do
+        expect(tasks).to match([have_attributes(title: 'Start Things', size: 1),
+                                have_attributes(title: 'Continue Things', size: 2),
+                                have_attributes(title: 'Finish Things', size: 3)])
+      end
+    end
+
     
     it "parses multiple tasks" do
       creator = CreatesProject.new(name: "Project Runway", 
@@ -106,6 +145,13 @@ RSpec.describe CreatesProject do
       expect(tasks).to match([
          an_object_having_attributes(title: "Start Things", size: 3),
          an_object_having_attributes(title: "End Things", size: 2)])
+    end
+    
+    describe "attaches tasks to the project" do
+      let(:task_string) { "Start Things:3\nEnd Things:2" }
+      before(:example) { creator.create }
+      it { expect(creator.project.tasks.size).to eq(2)}
+      it { expect(creator.project).not_to be_a_new_record  }
     end
     
     it 'attaches tasks to the project' do  
