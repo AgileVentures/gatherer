@@ -10,7 +10,7 @@ class Task < ApplicationRecord
  # end   
   
   def mark_as_finished(date = Time.current)
-    self.finished_at= date
+    self.finished_at = date
   end
 
   def finished?

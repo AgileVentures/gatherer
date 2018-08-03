@@ -4,6 +4,11 @@ class CreatesProject
   def initialize(name: "Leandro", task_string: "")
     @name = name
     @task_string = task_string
+    @success = false
+  end
+  
+  def success?
+    @success
   end
  
   def build
@@ -15,6 +20,7 @@ class CreatesProject
   
   def create
     build
+    # require 'pry'; binding.pry
     project.save
   end
   

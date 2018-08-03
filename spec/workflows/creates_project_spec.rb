@@ -150,8 +150,8 @@ RSpec.describe CreatesProject do
     describe "attaches tasks to the project" do
       let(:task_string) { "Start Things:3\nEnd Things:2" }
       before(:example) { creator.create }
-      it { expect(creator.project.tasks.size).to eq(2)}
-      it { expect(creator.project).not_to be_a_new_record  }
+      it { expect(creator.project.tasks.size).to eq(2) }
+      it { expect(creator.project).not_to be_a_new_record }
     end
     
     it 'attaches tasks to the project' do  
@@ -160,6 +160,14 @@ RSpec.describe CreatesProject do
       creator.create 
       expect(creator.project.tasks.size).to eq(2)
       expect(creator.project).not_to be_a_new_record
+    end
+  end
+  
+  describe "failure cases" do
+    it "fails when trying to save a project with no name" do
+      creator = CreatesProject.new(name: "", task_string: "")
+      creator.create
+      expect(creator).not_to be_a_success
     end
   end
 end
