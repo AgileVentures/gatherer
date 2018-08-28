@@ -1,13 +1,14 @@
 class Task < ApplicationRecord
   belongs_to :project
- # attr_reader :size
- # attr_accessor :finished_at
   
-  #def initialize(task_properties = {})
-   # @size        = task_properties[:size]
-    #self.finished_at= task_properties[:finished_at]
-    # mark_as_finished(task_properties[:finished_at]) if task_properties[:finished_at]
- # end   
+  def ==(other_task)
+    raise ArgumentError.new("#{inspect} can only be compared to other tasks") unless other_task.is_a?(Task)
+    project_id  == other_task.project_id  &&
+    title       == other_task.title       &&
+    size        == other_task.size        &&
+    finished_at == other_task.finished_at 
+  end  
+  
   
   def mark_as_finished(date = Time.current)
     self.finished_at = date

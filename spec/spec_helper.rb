@@ -14,12 +14,14 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  # config.define_derived_metadata do |meta|
-  #   meta[:aggregate_failures] = true
-  # end
+  config.define_derived_metadata do |meta|
+    meta[:aggregate_failures] = true
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+  config.treat_symbols_as_metadata_keys_with_true_values = true
+
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods

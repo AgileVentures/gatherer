@@ -137,7 +137,7 @@ RSpec.describe CreatesProject do
     end
 
     
-    it "parses multiple tasks" do
+    it "parses multiple tasks", :aggregate_failures do
       creator = CreatesProject.new(name: "Project Runway", 
                                    task_string: "Start Things:3\nEnd Things:2")
       tasks = creator.parse_string_as_tasks
@@ -154,7 +154,7 @@ RSpec.describe CreatesProject do
       it { expect(creator.project).not_to be_a_new_record }
     end
     
-    it 'attaches tasks to the project' do  
+    it 'attaches tasks to the project', :model do  
       creator = CreatesProject.new(name: "Project Runway", 
                                    task_string: "Start Things:3\nEnd Things:2")
       creator.create 
