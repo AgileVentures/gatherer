@@ -30,9 +30,9 @@ class Task < ApplicationRecord
     part_of_velocity? ? size : 0
   end  
   
-  # def self.alphabetize_title
-  #   order("title")
-  # end
+  def self.alphabetize_title
+    order("title")
+  end
   
   def self.large
     where("size > 3")
@@ -42,9 +42,11 @@ class Task < ApplicationRecord
     order("finished_at DESC")
   end
   
+  def self.recent_large_and_alphabetized
+    large.most_recent.alphabetize_title
+  end
   
-  
-  
-  scope :alphabetize_title, -> { order("title") }
+  # I'M IN UR CODE #oh no!
+  # scope :alphabetize_title, -> { order("title") }
   
 end
