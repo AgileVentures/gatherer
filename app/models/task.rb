@@ -11,7 +11,7 @@ class Task < ApplicationRecord
   
   
   def mark_as_finished(date = Time.current)
-    self.finished_at = date
+    self.update(finished_at: date)
   end
 
   def finished?
@@ -29,4 +29,22 @@ class Task < ApplicationRecord
   def points_toward_velocity
     part_of_velocity? ? size : 0
   end  
+  
+  # def self.alphabetize_title
+  #   order("title")
+  # end
+  
+  def self.large
+    where("size > 3")
+  end
+  
+  def self.most_recent
+    order("finished_at DESC")
+  end
+  
+  
+  
+  
+  scope :alphabetize_title, -> { order("title") }
+  
 end
