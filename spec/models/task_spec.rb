@@ -35,4 +35,13 @@ RSpec.describe Task do
       expect(basic_task.points_toward_velocity).to eq(0)
     end
   end
+  
+  describe "finders functionality" do
+    it 'finds large and most recent tasks' do
+      large_and_recently_done_variable = Task.create(title: "Done", size: 100)
+      large_and_recently_done_variable.mark_as_finished(2.days.ago) 
+      Task.create(finished_at: nil, title: "Not done", size: 3)
+      expect(Task.large_and_recently_done.pluck(:title)).to eq(["Done"])
+    end
+  end
 end

@@ -46,6 +46,9 @@ class Task < ApplicationRecord
     large.most_recent.alphabetize_title
   end
   
+  def self.large_and_recently_done
+    large.most_recent
+  end
   # I'M IN UR CODE #oh no!
   # scope :alphabetize_title, -> { order("title") }
   
