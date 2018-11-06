@@ -10,7 +10,6 @@ RSpec.describe Project do
     
     it 'knows that a project with an incomplete task is not done' do
         project.tasks << task
-        #expect(project.done?).to be_falsy
         expect(project).not_to be_done
     end
     
@@ -21,8 +20,8 @@ RSpec.describe Project do
     end
     
     it "properly handles a blank project" do
-      expect(project.finished_velocity).to eq(0)
-      expect(project.current_rate).to eq(0)
+      expect(project.velocity).to eq(0)
+      expect(project.daily_velocity).to eq(0)
       expect(project.projected_days_remaining).to be_nan
       expect(project).not_to be_on_schedule
     end
@@ -54,12 +53,11 @@ RSpec.describe Project do
     end
     
     it "knows its velocity" do
-      expect(project_with_multiple_tasks.finished_velocity).to eq(3)
+      expect(project_with_multiple_tasks.velocity).to eq(3)
     end
     
     it "knows its rate" do
-      expect(project_with_multiple_tasks.current_rate).to eq( 3.0 / 21 ) 
-      # expect(project_with_multiple_tasks.current_rate.round(2)).to eq(0.14) 
+      expect(project_with_multiple_tasks.daily_velocity).to eq( 3.0 / 21 ) 
     end
     
     it "knows its projected days remaining" do

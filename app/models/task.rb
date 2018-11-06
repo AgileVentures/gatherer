@@ -38,16 +38,16 @@ class Task < ApplicationRecord
     where("size > 3")
   end
   
-  def self.most_recent
-    order("finished_at DESC")
+  def self.most_recently_finished
+    where.not(finished_at: nil).order("finished_at DESC")
   end
   
   def self.recent_large_and_alphabetized
-    large.most_recent.alphabetize_title
+    large.most_recently_finished.alphabetize_title
   end
   
-  def self.large_and_recently_done
-    large.most_recent
+  def self.large_and_recently_finished
+    large.most_recently_finished
   end
   # I'M IN UR CODE #oh no!
   # scope :alphabetize_title, -> { order("title") }

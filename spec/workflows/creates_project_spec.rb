@@ -176,9 +176,6 @@ RSpec.describe CreatesProject do
       creator = CreatesProject.new(name: "Test", task_string: "size:1\nNo_Size_Title:no_size")
       creator.create
       expect(creator.project.tasks.map(&:title)).to eq(["size", "No_Size_Title"])
-      # binding.pry
-      # expect([2,3,nil,4, nil].compact.sum).to eq(9)
-      # expect(creator.project.tasks.map {|task| task. size.present? ? task.size: "Something funny"}.sum).to eq(2)
     end
   end
 end

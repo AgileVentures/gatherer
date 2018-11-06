@@ -11,7 +11,7 @@ class Project < ApplicationRecord
     end
     
     def done?
-      unfinished_tasks.empty?
+      unfinished_tasks.none?
     end
 
     def remaining_size
@@ -22,16 +22,16 @@ class Project < ApplicationRecord
       tasks.sum(&:size)
     end
     
-    def finished_velocity
+    def velocity
       tasks.sum(&:points_toward_velocity)
     end
     
-    def current_rate
-      finished_velocity * 1.0 / Project.velocity_window_in_days
+    def daily_velocity
+      velocity * 1.0 / Project.velocity_window_in_days
     end
     
     def projected_days_remaining
-      remaining_size / current_rate
+      remaining_size / daily_velocity
     end
     
     def on_schedule?

@@ -2,9 +2,9 @@ class CreatesProject
   attr_accessor :name, :project, :task_string
   
   def initialize(name: "Leandro", task_string: "")
-    @name = name
+    @name        = name
     @task_string = task_string
-    @success = false
+    @success     = false
   end
   
   def success?
@@ -12,15 +12,13 @@ class CreatesProject
   end
  
   def build
-    self.project = Project.new(name: name)
+    self.project  = Project.new(name: name)
     project.tasks = parse_string_as_tasks
-    #p project
     project
   end
   
   def create
     build
-    # require 'pry'; binding.pry
     project.save
   end
   
@@ -32,7 +30,8 @@ class CreatesProject
   end  
   
   def size_as_integer(size_string)
-    return 1 if size_string.blank? || size_string.to_i < 1
-    size_string.to_i
+    size_integer = size_string.to_i
+    return 1 if size_integer < 1
+    size_integer
   end
 end
