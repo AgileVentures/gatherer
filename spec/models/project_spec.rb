@@ -1,6 +1,9 @@
 require "rails_helper"
+require_relative '../shared/size_group.rb'
 
 RSpec.describe Project do
+  it_behaves_like "sizeable"
+  
   describe "completion" do
     let(:project) { Project.new }
     let(:task) { Task.new }

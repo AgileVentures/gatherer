@@ -1,4 +1,5 @@
 class Project < ApplicationRecord
+    include Sizeable
     has_many :tasks, dependent: :destroy
     validates_presence_of :name
     
@@ -21,6 +22,8 @@ class Project < ApplicationRecord
     def total_size
       tasks.sum(&:size)
     end
+    
+    alias_method :size, :total_size
     
     def velocity
       tasks.sum(&:points_toward_velocity)

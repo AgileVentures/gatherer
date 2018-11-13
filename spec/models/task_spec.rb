@@ -1,6 +1,9 @@
 require 'rails_helper'
+require 'shared/size_group'
 
 RSpec.describe Task do
+  it_should_behave_like "sizeable"
+  
   let(:unsized_task) { Task.new }
   describe 'initialization' do
     it 'is unfinished by default' do
@@ -39,43 +42,55 @@ RSpec.describe Task do
   describe 'finders functionality' do
     let (:creative_project) { Project.create(name: 'Really creative name') }
     
-    before do
-      @small_and_finished_long_ago      = creative_project.tasks.create(finished_at: 1.year.ago, title: 'Small', size: 1)
-      @medium_and_finished_sometime_ago = creative_project.tasks.create(finished_at: 3.months.ago, title: 'Medium', size: 3)
-      @large_and_recently_finished_task = creative_project.tasks.create(finished_at: 1.day.ago, title: 'Large', size: 100)
+    context "order with named methods for activerecord finders" do
+      before do
+        @small_and_finished_long_ago      = creative_project.tasks.create(finished_at: 1.year.ago, title: 'Small', size: 1)
+        @medium_and_finished_sometime_ago = creative_project.tasks.create(finished_at: 3.months.ago, title: 'Medium', size: 3)
+        @large_and_recently_finished_task = creative_project.tasks.create(finished_at: 1.day.ago, title: 'Large', size: 100)
+      end
+      
+      #large 
+      it 'returns tasks larger than 3' do
+        large_tasks_only = Task.large
+        expect(large_tasks_only.size).to eq(1)
+      end
+     
+      # most recent
+      it 'finds the most recently finished tasks' do
+        most_recent_tasks_array = Task.most_recently_finished.pluck(:title)
+        ordered_titles = [@large_and_recently_finished_task.title, 
+                          @medium_and_finished_sometime_ago.title, 
+                          @small_and_finished_long_ago.title
+                         ]
+        expect(most_recent_tasks_array).to eq(ordered_titles)
+      end
+      
+      # alphabetized title
+      it 'alphabetized title' do
+        alphabetized_title = Task.alphabetize_title.pluck(:title)
+        ordered_titles = [@large_and_recently_finished_task.title, 
+                          @medium_and_finished_sometime_ago.title, 
+                          @small_and_finished_long_ago.title
+                         ]
+        expect(alphabetized_title).to eq(ordered_titles)
+      end
+      
+      it 'finds large and most recent tasks' do
+        unfinished_task = creative_project.tasks.create(finished_at: nil, title: 'Unfinished', size: 5)
+       expect(Task.large_and_recently_finished.map(&:title)).to eq(['Large'])
+        # alternate version vvvv
+        # expect(Task.large_and_recently_finished).to match([an_object_having_attributes(title: "Larger")])
+      end
     end
     
-    #large 
-    it 'returns tasks larger than 3' do
-      large_tasks_only = Task.large
-      expect(large_tasks_only.size).to eq(1)
-    end
-   
-    # most recent
-    it 'finds the most recently finished tasks' do
-      most_recent_tasks_array = Task.most_recently_finished.pluck(:title)
-      ordered_titles = [@large_and_recently_finished_task.title, 
-                        @medium_and_finished_sometime_ago.title, 
-                        @small_and_finished_long_ago.title
-                       ]
-      expect(most_recent_tasks_array).to eq(ordered_titles)
+    it 'ensure sorting works perfectly' do
+      finished_while_ago = creative_project.tasks.create(finished_at: 2.hours.ago, title: 'Finished 2 hours ago', size: 20)
+      finished_a_week_ago = creative_project.tasks.create(finished_at: 1.weeks.ago, title: 'Finished 1 week ago', size: 7)
+      finished_recently = creative_project.tasks.create(finished_at: 20.seconds.ago, title: 'Finished 20 seconds ago', size: 10)
+
+
+      expect(Task.most_recently_finished.pluck(:title)).to eq(["Finished 20 seconds ago", "Finished 2 hours ago", "Finished 1 week ago"])
     end
     
-    # alphabetized title
-    it 'alphabetized title' do
-      alphabetized_title = Task.alphabetize_title.pluck(:title)
-      ordered_titles = [@large_and_recently_finished_task.title, 
-                        @medium_and_finished_sometime_ago.title, 
-                        @small_and_finished_long_ago.title
-                       ]
-      expect(alphabetized_title).to eq(ordered_titles)
-    end
-    
-    it 'finds large and most recent tasks' do
-      unfinished_task = creative_project.tasks.create(finished_at: nil, title: 'Unfinished', size: 5)
-      # expect(Task.large_and_recently_finished.map(&:title)).to eq(['Large'])
-      # alternate version vvvv
-      expect(Task.large_and_recently_finished).to match([an_object_having_attributes(title: "Large")])
-    end
   end
 end
