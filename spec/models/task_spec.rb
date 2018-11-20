@@ -2,7 +2,15 @@ require 'rails_helper'
 require 'shared/size_group'
 
 RSpec.describe Task do
-  it_should_behave_like "sizeable"
+  # it_should_behave_like "sizeable" do
+  #   let(:instance) { Task.new }
+  # end
+  
+  # it_behaves_like "sizeable"
+  
+  include_examples ('sizeable') do
+    let(:instance) { Task.new }
+  end
   
   let(:unsized_task) { Task.new }
   describe 'initialization' do
@@ -72,7 +80,7 @@ RSpec.describe Task do
                           @medium_and_finished_sometime_ago.title, 
                           @small_and_finished_long_ago.title
                          ]
-        expect(alphabetized_title).to eq(ordered_titles)
+        expect(alphabetized_title).to eq(ordered_titles)  
       end
       
       it 'finds large and most recent tasks' do
@@ -92,5 +100,12 @@ RSpec.describe Task do
       expect(Task.most_recently_finished.pluck(:title)).to eq(["Finished 20 seconds ago", "Finished 2 hours ago", "Finished 1 week ago"])
     end
     
+    it 'defaults to small' do
+      creator = CreatesProject.new(name: "Project Runway", 
+                                   task_string: "Start Things:3\nEnd Things:0.5")
+      creator.create 
+      task_without_size = Task.find_by(title: "End Things")
+      expect(task_without_size).to be_of_size(1)
+    end
   end
 end

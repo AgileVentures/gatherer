@@ -6,8 +6,8 @@ RSpec.shared_examples "sizeable" do
     expect(instance).to be_small
   end
 
-  it "knows a five-point story is epic" do
-    allow(instance).to receive(:size).and_return(5)
+  it "knows a ten-point story is epic" do
+    allow(instance).to receive(:size).and_return(10)
     expect(instance).to be_epic
   end
 end

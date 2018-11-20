@@ -34,7 +34,6 @@ RSpec.describe CreatesProject do
         title: "Start Things", size: 1) }
     end
     
-    
     it "parses a single string" do 
       creator = CreatesProject.new(name: "Project Runway", task_string: "Start Things")
       tasks = creator.parse_string_as_tasks  

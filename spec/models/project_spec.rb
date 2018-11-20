@@ -2,8 +2,10 @@ require "rails_helper"
 require_relative '../shared/size_group.rb'
 
 RSpec.describe Project do
-  it_behaves_like "sizeable"
-  
+  it_behaves_like "sizeable" do
+    let(:instance) { Project.new }
+  end
+    
   describe "completion" do
     let(:project) { Project.new }
     let(:task) { Task.new }
@@ -75,6 +77,11 @@ RSpec.describe Project do
     it "knows if it is on schedule" do
       project_with_multiple_tasks.due_date = 6.months.from_now
       expect(project_with_multiple_tasks).to be_on_schedule
+    end
+    
+    it 'can calculate total size' do
+      expect(project_with_multiple_tasks).to be_of_size(10)
+      expect(project_with_multiple_tasks).not_to be_of_size(5)
     end
   end
     

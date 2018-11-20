@@ -6,6 +6,6 @@ module Sizeable
   end
 
   def epic?
-    size >= 5
+    size >= 10
   end
 end
