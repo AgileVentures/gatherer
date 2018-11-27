@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'shared/size_group'
+require 'pp'
 
 RSpec.describe Task do
   # it_should_behave_like "sizeable" do
@@ -107,5 +108,18 @@ RSpec.describe Task do
       task_without_size = Task.find_by(title: "End Things")
       expect(task_without_size).to be_of_size(1)
     end
+    
+    it 'does not default to small' do |example|
+      creator = CreatesProject.new(name: "Project Runway", 
+                                   task_string: "Start Things:3\nEnd Things:5")
+      creator.create 
+      task_without_size = Task.find_by(title: "End Things")
+      pp example.metadata
+      expect(task_without_size).not_to be_of_size(4)
+    end
   end
+  
+  # it "can calculate remaining size" do
+  #     expect(project).to be_of_size(5).for_unfinished_tasks_only
+  # end
 end

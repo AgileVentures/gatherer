@@ -83,6 +83,10 @@ RSpec.describe Project do
       expect(project_with_multiple_tasks).to be_of_size(10)
       expect(project_with_multiple_tasks).not_to be_of_size(5)
     end
+    
+    it "can calculate remaining size" do
+      expect(project_with_multiple_tasks).to be_of_size(5).for_unfinished_tasks_only
+    end
   end
     
 end

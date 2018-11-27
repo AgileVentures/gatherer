@@ -50,7 +50,10 @@ class Task < ApplicationRecord
   def self.large_and_recently_finished
     large.most_recently_finished
   end
-  # I'M IN UR CODE #oh no!
-  # scope :alphabetize_title, -> { order("title") }
+ 
+ def remaining_size
+   4
+ end
+ 
   
 end
