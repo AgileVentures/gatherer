@@ -88,5 +88,11 @@ RSpec.describe Project do
       expect(project_with_multiple_tasks).to be_of_size(5).for_unfinished_tasks_only
     end
   end
-    
+  
+  describe "how we use FactoryBot" do
+    it "uses factory_bot slug block" do
+      project = create(:project, name: "Book To Write")
+      expect(project.slug).to eq("book-to-write")
+    end
+  end
 end

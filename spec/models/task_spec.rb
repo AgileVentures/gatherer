@@ -114,7 +114,7 @@ RSpec.describe Task do
                                    task_string: "Start Things:3\nEnd Things:5")
       creator.create 
       task_without_size = Task.find_by(title: "End Things")
-      pp example.metadata
+      # pp example.metadata
       expect(task_without_size).not_to be_of_size(4)
     end
   end
