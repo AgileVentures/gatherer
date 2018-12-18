@@ -33,16 +33,16 @@ RSpec.describe Project do
   end
   
   describe 'estimates' do
-    let(:project_with_a_single_completed_task) { Project.new }
-    let(:project_with_multiple_tasks) { Project.new }
-    let(:newly_done) { Task.new(size: 3, finished_at: 1.day.ago) }
-    let(:old_done) { Task.new(size: 2, finished_at: 6.months.ago) }
-    let(:small_not_done) { Task.new(size: 1) }
-    let(:large_not_done) { Task.new(size: 4) }
+    let(:project_with_a_single_completed_task) { FactoryBot.build(:project) }
+    let(:project_with_multiple_tasks) { FactoryBot.build(:project) }
+    let(:newly_finished) { FactoryBot.build_stubbed(:task, size: 3, finished_at: 1.day.ago) }
+    let(:old_finished) { FactoryBot.build_stubbed(:task, size: 2, finished_at: 6.months.ago) }
+    let(:small_unfinished) { FactoryBot.build_stubbed(:task, size: 1) }
+    let(:large_unfinished) { FactoryBot.build_stubbed(:task, size: 4) }
     
     before(:example) do
-      project_with_a_single_completed_task.tasks = [newly_done]
-      project_with_multiple_tasks.tasks = [newly_done, old_done, small_not_done, large_not_done]
+      project_with_a_single_completed_task.tasks = [newly_finished]
+      project_with_multiple_tasks.tasks = [newly_finished, old_finished, small_unfinished, large_unfinished]
     end
     
     it 'calculates total size of project with one completed task' do
