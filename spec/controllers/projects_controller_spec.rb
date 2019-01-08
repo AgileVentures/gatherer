@@ -1,6 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProjectsController, type: :controller do
-    def new
-    end
+  def new
+  end
 end
