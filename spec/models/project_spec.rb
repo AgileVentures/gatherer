@@ -9,6 +9,7 @@ RSpec.describe Project do
     
   describe 'completion' do
     let(:project) { FactoryBot.build_stubbed(:project) }
+    
     it 'considers a project with no tasks to be done' do
       expect(project).to be_done
     end
@@ -95,7 +96,10 @@ RSpec.describe Project do
 
       let(:project) { build_stubbed(:project, tasks: [task]) }
       let(:task) { build(:task) }
-      
+      let(:worthless_project) { FactoryBot.build_stubbed(:project) }
+      let(:worthless_project_task) { FactoryBot.build_stubbed(:task) }
+      let(:worthless_project_with_multiple_tasks) { FactoryBot.build_stubbed(:project_with_multiple_tasks) }
+      let(:meaningless_project_with_task_pair) { FactoryBot.build_stubbed(:project_with_task_pair)}
       it 'considers a project with an incomplete task as not done' do
         expect(project).not_to be_done
       end
@@ -103,6 +107,14 @@ RSpec.describe Project do
       it 'marks a project done if its tasks are done' do
         task.mark_as_finished
         expect(project).to be_done
+      end
+      
+      it 'worthless, meaningless tests' do
+        expect(worthless_project_with_multiple_tasks.total_size).to eq(100)
+        expect(meaningless_project_with_task_pair.total_size).to eq(2)
+        actual_titles = meaningless_project_with_task_pair.tasks.map(&:title)
+        expected_titles = ['ToDo List', 'ToDo List']
+        expect(actual_titles).to eq(expected_titles)
       end
     end
 end
