@@ -1,6 +1,7 @@
 FactoryBot.define do 
   factory :task do
-    title 'Thing to do'
+    project
+    title { "Thing to do-#{Time.now}" }
     size  1
     finished_at nil
   end

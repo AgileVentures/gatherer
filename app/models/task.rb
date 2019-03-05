@@ -1,6 +1,7 @@
 class Task < ApplicationRecord
   include Sizeable
   belongs_to :project
+  validates_uniqueness_of :title
   
   def ==(other_task)
     raise ArgumentError.new("#{inspect} can only be compared to other tasks") unless other_task.is_a?(Task)
