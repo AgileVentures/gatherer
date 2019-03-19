@@ -100,23 +100,6 @@ RSpec.describe Task do
 
       expect(Task.most_recently_finished.pluck(:title)).to eq(["Finished 20 seconds ago", "Finished 2 hours ago", "Finished 1 week ago"])
     end
-    
-    it 'defaults to small' do
-      creator = CreatesProject.new(name: "Project Runway", 
-                                   task_string: "Start Things:3\nEnd Things:0.5")
-      creator.create 
-      task_without_size = Task.find_by(title: "End Things")
-      expect(task_without_size).to be_of_size(1)
-    end
-    
-    it 'does not default to small' do |example|
-      creator = CreatesProject.new(name: "Project Runway", 
-                                   task_string: "Start Things:3\nEnd Things:5")
-      creator.create 
-      task_without_size = Task.find_by(title: "End Things")
-      # pp example.metadata
-      expect(task_without_size).not_to be_of_size(4)
-    end
   end
   
   # it "can calculate remaining size" do
