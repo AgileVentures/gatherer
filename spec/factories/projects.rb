@@ -5,7 +5,7 @@ FactoryBot.define do
     # slug { "#{name.downcase.gsub('', '-')}" }
     
     factory :project_with_multiple_tasks do
-      tasks { build_stubbed_list(:task, 100) }
+      tasks { build_list(:task, 100) }
     end
     factory :project_with_task_pair do
       tasks { build_pair(:task, title: "ToDo List") }

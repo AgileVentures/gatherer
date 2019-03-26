@@ -8,7 +8,7 @@ RSpec.describe Project do
   let(:task) { Task.new }
     
   describe 'completion' do
-    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:project) { build_stubbed(:project) }
     
     it 'considers a project with no tasks to be done' do
       expect(project).to be_done
@@ -36,10 +36,10 @@ RSpec.describe Project do
   describe "with a task" do
     let(:project) { build_stubbed(:project, tasks: [task]) }
     let(:task) { build(:task) }
-    let(:worthless_project) { FactoryBot.build_stubbed(:project) }
-    let(:worthless_project_task) { FactoryBot.build_stubbed(:task) }
-    let(:worthless_project_with_multiple_tasks) { FactoryBot.build_stubbed(:project_with_multiple_tasks) }
-    let(:meaningless_project_with_task_pair) { FactoryBot.build_stubbed(:project_with_task_pair)}
+    let(:worthless_project) { build_stubbed(:project) }
+    let(:worthless_project_task) { build_stubbed(:task) }
+    let(:worthless_project_with_multiple_tasks) { build_stubbed(:project_with_multiple_tasks) }
+    let(:meaningless_project_with_task_pair) { build_stubbed(:project_with_task_pair)}
     
     it 'considers a project with an incomplete task as not done' do
       expect(project).not_to be_done
@@ -51,12 +51,12 @@ RSpec.describe Project do
     end  
   end
   describe 'estimates' do
-    let(:project_with_a_single_completed_task) { FactoryBot.build(:project, tasks: [newly_finished_task]) }
-    let(:project_with_multiple_tasks) { FactoryBot.build(:project, tasks: [newly_finished_task, old_finished_task, small_unfinished_task, large_unfinished_task]) }
-    let(:newly_finished_task) { FactoryBot.build_stubbed(:task,  :newly_finished) }
-    let(:old_finished_task) { FactoryBot.build_stubbed(:task, :old_finished) }
-    let(:small_unfinished_task) { FactoryBot.build_stubbed(:task, :small) }
-    let(:large_unfinished_task) { FactoryBot.build_stubbed(:task, :large) }
+    let(:project_with_a_single_completed_task) { build(:project, tasks: [newly_finished_task]) }
+    let(:project_with_multiple_tasks) { build_stubbed(:project, tasks: [newly_finished_task, old_finished_task, small_unfinished_task, large_unfinished_task]) }
+    let(:newly_finished_task) { build_stubbed(:task,  :newly_finished) }
+    let(:old_finished_task) { build_stubbed(:task, :old_finished) }
+    let(:small_unfinished_task) { build_stubbed(:task, :small) }
+    let(:large_unfinished_task) { build_stubbed(:task, :large) }
     
     it 'calculates total size of project with one completed task' do
       expect(project_with_a_single_completed_task.total_size).to eq(3)

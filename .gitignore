@@ -31,3 +31,5 @@
 
 # Ignore persisted RSpec test statuses of last run
 /spec/examples.txt
+# asdf generated file for easy install
+.tool-versions
