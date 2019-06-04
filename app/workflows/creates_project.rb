@@ -1,7 +1,7 @@
 class CreatesProject
   attr_accessor :name, :project, :task_string
   
-  def initialize(name: "Leandro", task_string: "")
+  def initialize(name: 'Leandro', task_string: '')
     @name        = name
     @task_string = task_string
     @success     = false
@@ -19,12 +19,12 @@ class CreatesProject
   
   def create
     build
-    project.save
+    @success = project.save
   end
   
   def parse_string_as_tasks
     task_string.split("\n").map do |one_task|
-      title, size_string = one_task.split(":")
+      title, size_string = one_task.split(':')
       Task.new(title: title, size: size_as_integer(size_string))
     end
   end  

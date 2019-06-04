@@ -2,16 +2,16 @@ FactoryBot.define do
   factory :task do
     sequence(:title) { |n| "Task #{n}" }
     # title { "Thing to do-#{Time.now}" }
-    size  3
+    size  { 3 }
     project
-    finished_at nil 
+    finished_at { nil } 
     
     trait :small do
-      size 1
+      size { 1 }
     end
 
     trait :large do
-      size 5
+      size { 5 }
     end
 
     trait :urgent do
