@@ -102,6 +102,13 @@ RSpec.describe Task do
     end
   end
   
+  it "stubs with multiple return values" do
+    task = Task.new
+    allow(task).to receive(:size).and_return(1, 2)
+    assert_equal(1, task.size)
+    assert_equal(2, task.size)
+    assert_equal(2, task.size)
+  end
   # it "can calculate remaining size" do
   #     expect(project).to be_of_size(5).for_unfinished_tasks_only
   # end
